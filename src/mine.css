@@ -1,0 +1,24 @@
+.mineboard {
+	border: 1px solid #999999;
+}
+
+.minebox {
+	margin: 1px;
+	border: 1px solid #cccccc;
+}
+
+.minebox-covered {
+	background: #cccccc;
+}
+
+.minebox-opened {
+	background: #ffffff;
+}
+
+.minebox-bombed {
+	background: #ff0000;
+}
+
+.minebox-flaged {
+	background: #99ff99;
+}
