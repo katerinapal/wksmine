@@ -37,6 +37,25 @@ function MineModel(rows, cols, mines){
     this.listeners = [];
 }
 
+MineModel.prototype.generateMines = function(){
+    posses = [];
+    for (var r = 0; r < this.rows; r++) {
+        for (var c = 0; c < this.cols; c++) {
+            posses.push(Math.random(), [r, c]);
+        }
+    }
+    posses.sort(function(p){
+        return p[0];
+    });
+    
+    for (var i in posses) {
+        r = i[1][0];
+        c = i[1][1];
+        bi = this.infos[r][c];
+        bi.hasMine = i < this.mines;
+    }
+};
+
 MineModel.prototype.uncover = function(row, col){
     bi = this.infos[row][col];
     switch (bi.state) {
@@ -48,10 +67,22 @@ MineModel.prototype.uncover = function(row, col){
                 bi.state = BoxState.OPENED;
             }
             
-			for(var i in this.listeners) {
-				listeners[i].stateChanged(row,col);
-			}
-			
+            for (var i in this.listeners) {
+                listeners[i].stateChanged(row, col);
+            }
+            
             break;
     }
 };
+
+theModel = DEFAULTS.makeModel();
+
+theView = {
+	stateChanged : function(row, col) {
+		alert(""+row+","+col);
+	}
+};
+
+$(document).ready(function() {
+	
+});
