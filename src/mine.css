@@ -5,10 +5,20 @@
 .minebox {
 	margin: 1px;
 	border: 1px solid #cccccc;
+	width: 20px;
+	height: 20px;
+	padding: 0px;
+	font-size: 16px;
+	text-align: center;
 }
 
 .minebox-covered {
 	background: #cccccc;
+}
+
+.minebox-covered.minebox-gameover-mine {
+	background-color: #cccccc;
+	background-image: url("img/mine.png");
 }
 
 .minebox-opened {
@@ -16,9 +26,21 @@
 }
 
 .minebox-bombed {
-	background: #ff0000;
+	background-color: #ff0000;
+	background-image: url("img/mine.png");
 }
 
 .minebox-flaged {
-	background: #99ff99;
+	background-color: #cccccc;
+	background-image: url("img/flag.png");
+}
+.minebox-flaged.minebox-gameover-nomine {
+	background-color: #cccccc;
+	background-image: url("img/noflag.png");
+}
+#status-box {
+	display: none;
+}
+#status-box.status-win {
+	display: inherit;
 }
