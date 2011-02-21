@@ -10,6 +10,8 @@
 	padding: 0px;
 	font-size: 16px;
 	text-align: center;
+	font-weight: bold;
+	
 }
 
 .minebox-covered {
@@ -38,9 +40,32 @@
 	background-color: #cccccc;
 	background-image: url("img/noflag.png");
 }
-#status-box {
-	display: none;
+
+.minebox-number-1 {
+	color: #0000cc;
 }
-#status-box.status-win {
-	display: inherit;
+.minebox-number-2 {
+	color: #006600;
+}
+.minebox-number-3 {
+	color: #cc0000;
+}
+.minebox-number-4 {
+	color: #000099;
+}
+.minebox-number-5 {
+	color: #003300;
+}
+.minebox-number-6 {
+	color: #990000;
+}
+.minebox-number-7 {
+	color: #660066;
+}
+.minebox-number-8 {
+	color: #000000;
+}
+
+#win-box {
+	display: none;
 }

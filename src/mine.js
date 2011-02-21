@@ -1,3 +1,5 @@
+////////////// MODEL /////////////
+
 BoxState = {
     COVERED: "covered",
     OPENED: "opened",
@@ -14,9 +16,9 @@ function BoxInfo(row, col){
 }
 
 DEFAULTS = {
-    rows: 8,
-    cols: 8,
-    mines: 10,
+    rows: 16,
+    cols: 16,
+    mines: 40,
     makeModel: function(){
         return new MineModel(this.rows, this.cols, this.mines);
     }
@@ -213,9 +215,27 @@ MineModel.prototype.checkWin = function(){
     }
 };
 
+//////////////// VIEW /////////////////
+
+ClickAction = {
+	OPEN: "open",
+	FLAG: "flag",
+	inverse: function(action) {
+		switch(action) {
+			case this.OPEN:
+				return this.FLAG;
+			case this.FLAG:
+				return this.OPEN;
+		}
+	}
+};
+
 theView = {
     model: null,
+	clickAction: ClickAction.OPEN,
     initView: function(){
+		$("#action-open").attr("checked","checked");
+		
         $("#mineboard-body > *").remove();
         for (var r = 0; r < this.model.rows; r++) {
             var tr = document.createElement("tr");
@@ -279,28 +299,36 @@ theView = {
         var row = box.row;
         var col = box.col;
         var info = this.model.infos[row][col];
-        if (!ctrlKey) {
-            switch (info.state) {
-                case BoxState.COVERED:
-                    this.model.flag(info);
-                    break;
-                case BoxState.OPENED:
-                    this.model.tryUncoverSurroundings(info);
-                    break;
-                case BoxState.FLAGED:
-                    this.model.unflag(info);
-                    break;
-            }
-        }
-        else {
-            switch (info.state) {
-                case BoxState.COVERED:
-                    this.model.uncover(info);
-                    break;
-                case BoxState.OPENED:
-                    this.model.tryUncoverSurroundings(info);
-                    break;
-            }
+		
+		var currentAction = this.clickAction;
+		if (ctrlKey) {
+			currentAction = ClickAction.inverse(currentAction);
+		}
+		
+        switch (currentAction) {
+			case ClickAction.FLAG:
+	            switch (info.state) {
+	                case BoxState.COVERED:
+	                    this.model.flag(info);
+	                    break;
+	                case BoxState.OPENED:
+	                    this.model.tryUncoverSurroundings(info);
+	                    break;
+	                case BoxState.FLAGED:
+	                    this.model.unflag(info);
+	                    break;
+	            }
+			break;
+	        case ClickAction.OPEN:
+	            switch (info.state) {
+	                case BoxState.COVERED:
+	                    this.model.uncover(info);
+	                    break;
+	                case BoxState.OPENED:
+	                    this.model.tryUncoverSurroundings(info);
+	                    break;
+	            }
+			break;
         }
     },
     stateChanged: function(info){
@@ -321,11 +349,19 @@ theView = {
         }
     },
     win: function(){
-        $("#status-box").addClass("status-win");
+        $("#win-box").show();
     }
     
 };
 
 $(document).ready(function(){
+	$("#action-open").click(function() {
+		theView.clickAction = ClickAction.OPEN;
+	});
+	
+	$("#action-flag").click(function() {
+		theView.clickAction = ClickAction.FLAG;
+	});
+	
     theView.newGame();
 });
